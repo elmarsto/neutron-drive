@@ -1,0 +1,159 @@
+<form id="prefForm" onsubmit="return update_prefs()">
+  <table>
+    <tr>
+      <td>
+        <div class="control-group">
+          <label class="control-label" for="id_theme">Editor Theme</label>
+          <div class="controls">
+            <select id="id_theme" name="theme">
+              {% for t in themes %}
+              <option value="{{ t.0 }}"{% if t.0 == prefs.theme %} selected="selected"{% endif %}>{{ t.1 }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="control-group">
+          <label class="control-label" for="id_keybind">Key Bindings</label>
+          <div class="controls">
+            <select id="id_keybind" name="keybind">
+              {% for t in binds %}
+              <option value="{{ t.0 }}"{% if t.0 == prefs.keybind %} selected="selected"{% endif %}>{{ t.1 }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="control-group">
+          <label class="control-label" for="id_swrap">Soft Wrap</label>
+          <div class="controls">
+            <select id="id_swrap" name="swrap">
+              {% for t in wraps %}
+              <option value="{{ t.0 }}"{% if t.0 == prefs.swrap %} selected="selected"{% endif %}>{{ t.1 }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="control-group">
+          <label class="control-label" for="id_fontsize">Font Size</label>
+          <div class="controls">
+            <select id="id_fontsize" name="fontsize">
+              {% for t in sizes %}
+              <option value="{{ t.0 }}"{% if t.0 == prefs.fontsize %} selected="selected"{% endif %}>{{ t.1 }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <div class="control-group">
+          <label class="control-label" for="id_tabsize">Tab Size</label>
+          <div class="controls">
+            <input type="number" step="1" name="tabsize" id="id_tabsize" value="{{ prefs.tabsize }}">
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <table>
+          <tr>
+            <td>
+              <div class="controls">
+                <label class="checkbox" for="id_hactive">
+                  <input type="checkbox" name="hactive" value="ON" id="id_hactive"{% if prefs.hactive %} checked="checked"{% endif %}>
+                  Highlight Active Line
+                </label>
+              </div>
+            </td>
+            <td>
+              <div class="controls">
+                <label class="checkbox" for="id_hword">
+                  <input type="checkbox" name="hword" value="ON" id="id_hword"{% if prefs.hword %} checked="checked"{% endif %}>
+                  Highlight Selected Word
+                </label>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="controls">
+                <label class="checkbox" for="id_invisibles">
+                  <input type="checkbox" name="invisibles" value="ON" id="id_invisibles"{% if prefs.invisibles %} checked="checked"{% endif %}>
+                  Show Invisibles
+                </label>
+              </div>
+            </td>
+            <td>
+              <div class="controls">
+                <label class="checkbox" for="id_gutter">
+                  <input type="checkbox" name="gutter" value="ON" id="id_gutter"{% if prefs.gutter %} checked="checked"{% endif %}>
+                  Show Gutter
+                </label>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="controls">
+                <label class="checkbox" for="id_pmargin">
+                  <input type="checkbox" name="pmargin" value="ON" id="id_pmargin"{% if prefs.pmargin %} checked="checked"{% endif %}>
+                  Show Print Margin
+                </label>
+              </div>
+            </td>
+            <td>
+              <div class="controls">
+                <label class="checkbox" for="id_softab">
+                  <input type="checkbox" name="softab" value="ON" id="id_softab"{% if prefs.softab %} checked="checked"{% endif %}>
+                  Use Soft Tab
+                </label>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="controls">
+                <label class="checkbox" for="id_behave">
+                  <input type="checkbox" name="behave" value="ON" id="id_behave"{% if prefs.behave %} checked="checked"{% endif %}>
+                  Enable Behaviors
+                </label>
+              </div>
+            </td>
+            <td>
+              <div class="controls">
+                <label class="checkbox" for="id_save_session">
+                  <input type="checkbox" name="save_session" value="ON" id="id_save_session"{% if prefs.save_session %} checked="checked"{% endif %}>
+                  Save Session
+                </label>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="controls">
+                <label class="checkbox" for="id_auto_save">
+                  <input type="checkbox" name="auto_save" value="ON" id="id_auto_save"{% if prefs.auto_save %} checked="checked"{% endif %}>
+                  Auto Save
+                </label>
+              </div>
+            </td>
+            <td>
+              <div class="controls">
+                
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</form>

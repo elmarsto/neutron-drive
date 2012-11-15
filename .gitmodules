@@ -1,0 +1,6 @@
+[submodule "neutron-drive/private"]
+	path = neutron-drive/private
+	url = git@bitbucket.org:pizzapanther/ndriveprivate.git
+[submodule "neutron-drive/static/ace"]
+	path = neutron-drive/static/ace
+	url = https://github.com/ajaxorg/ace-builds.git

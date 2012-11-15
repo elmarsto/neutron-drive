@@ -1,0 +1,21 @@
+<!doctype html>{% load url from future %}{% load static %}
+<html> 
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Reauthorization Complete</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.min.css" %}"></link>
+  </head>
+  <body>
+    <h2 style="text-align: center;">
+      <br>
+      Reauthorization complete.
+      <br><br>
+      You can close this window and retry your request.  
+    </h2>
+    <script type="text/javascript">
+      opener.reauth_done();
+    </script>
+  </body>
+</html>

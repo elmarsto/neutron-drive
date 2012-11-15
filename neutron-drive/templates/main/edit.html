@@ -1,0 +1,248 @@
+<!doctype html>{% load url from future %}{% load static ntags %}
+<html>
+  <head>
+    <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "js/jqueryFileTree/jqueryFileTree.css" %}">
+    <link rel="stylesheet" href="{% static "css/edit.css" %}">
+    <link rel="stylesheet" href="{% static "css/diffview.css" %}">
+    <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/lanjfnanlbolmgmnchmhfnicfefjgnff">
+    <link rel="shortcut icon" href="{% static "favicon.ico" %}">
+    <title>Neutron Drive</title>
+    {% if NDEBUG %}
+    <!-- Excluding Analytics from Dev Environment -->
+    {% else %}
+    <script type="text/javascript">
+    
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-4108685-15']);
+      _gaq.push(['_trackPageview']);
+    
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    
+    </script>
+    {% endif %}
+  </head>
+  <body>
+    <div id="dragger"></div>
+    <div>
+      <div id="top_wrapper" class="back">
+        <nav>
+          <div class="btn-toolbar">
+            <div class="btn-group right">
+              <div class="btn-group">
+                <a class="btn dropdown-toggle" data-toggle="dropdown" href="javascript: void(0);" onclick="hide_right_menu()">
+                  <i class="icon-folder-close"></i>
+                </a>
+                <ul class="dropdown-menu" id="tab_drop"></ul>
+              </div>
+              <div class="btn-group">                
+                <a class="btn dropdown-toggle" data-toggle="dropdown" href="javascript: void(0);" onclick="hide_right_menu()">
+                  <i class="icon-cog"></i>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a data-toggle="modal" href="#prefModal">
+                      <i class="icon-cog"></i>
+                      Preferences
+                    </a>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a data-toggle="modal" href="#aboutModal">
+                      <i class="icon-flag"></i>
+                      About  
+                  </a>
+                </li>
+                <li>
+                  <a data-toggle="modal" href="#keyModal">
+                    <i class="icon-font"></i>
+                    Keyboard Shortcuts
+                  </a>
+                </li>
+                <li>
+                  <a data-toggle="modal" href="#shareModal" onclick="jQuery('#share_iframe').attr('src', '{% url 'iframe_share' %}')">
+                    <i class="icon-share"></i>
+                    Share Neutron Drive  
+                  </a>
+                </li>
+                <li>
+                  <a target="_blank" href="https://chrome.google.com/webstore/support/lanjfnanlbolmgmnchmhfnicfefjgnff?hl=en&gl=US#bug">
+                    <i class="icon-comment"></i>
+                    Feedback (Questions, Bugs, Feature Requests)
+                  </a>
+                </li>
+              </ul>
+              </div>
+            </div>
+            <div id="account_id">
+              <a href="" onclick="return confirm('Are you sure you wish to Reauthorize/Switch Accounts?')" title="Reauthorize/Switch Accounts">{{ prefs.email }}</a>
+            </div>
+            <img src="{% static "img/neutron_face_30.png" %}" alt="" class="logo">
+            <div class="name">Neutron Drive</div>
+            <div class="btn-group">
+              <a class="btn dropdown-toggle" data-toggle="dropdown" href="javascript: void(0);" onclick="hide_right_menu()">
+                <i class="icon-file"></i> File
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="javascript: void(0);" onclick="rev_history()" title="Ctrl-H/Cmd-H">
+                    <i class="icon-tags"></i>
+                    Revision History
+                  </a>
+                </li>
+                <li>
+                  <a data-toggle="modal" href="#modeModal" onclick="get_editor_mode()">
+                    <i class="icon-align-justify"></i>
+                    Editor Mode
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a data-toggle="modal" href="javascript: void(0);" onclick="open_html()">
+                    <i class="icon-eye-open"></i>
+                    WYSIWYG HTML Editor (experimental)
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li class="dropdown-submenu">
+                  <a tabindex="-1" href="#"><i class="icon-time"></i> Recent Files</a>
+                  <ul class="dropdown-menu" id="recent_ul">
+                    {% for key, value in recent_files.items %}
+                    <li data-fileid="{{ key }}">
+                      <a href="javascript: void(0);" onclick="file_opener('{{ key }}')">{{ value }}</a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <div class="btn-group">
+              <button class="btn" id="install-button" type="button" onclick="do_chrome_install()"><i class="icon-shopping-cart"></i> Install Chrome App</button>
+              <button class="btn" type="button" onclick="open_picker()"><i class="icon-search"></i> File Search</button>
+              <button class="btn" type="button" onclick="auto_save(true)" id="forcesave" title="Ctrl-D/Cmd-D"><i class="icon-download-alt"></i> Save</button>
+              <button class="btn" type="button" onclick="close_all()"><i class="icon-remove"></i> Close All</button>
+            </div>
+            <div id="message_center"></div>
+          </div>
+        </nav>
+      </div>
+      <div id="box_wrapper">
+        <div>
+          <div id="fbbutts">
+            <div>
+              <a class="btn btn-small" href="javascript: void(0);" onclick="$('#fileTree').fileTree({root: '', script: '/file_tree'}, file_browser_open);">
+                <i class="icon-refresh"></i>
+              </a>
+              <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="javascript: void(0);" onclick="hide_right_menu()">
+                <i class="icon-plus"></i>
+              </a>
+              <ul class="dropdown-menu" id="root_new">
+                <li>
+                  <a href="javascript: void(0);" onclick="new_file_root()">
+                    <i class="icon-file"></i>
+                    New File
+                  </a>
+                </li>
+                <li>
+                  <a href="javascript: void(0);" onclick="new_dir_root()">
+                    <i class="icon-folder-open"></i>
+                    New Directory
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <ul class="nav nav-tabs" id="sideTabs">
+            <li><a href="#fileSideTab" data-toggle="tab" onclick="$('#fbbutts').removeClass('hide')">Files</a></li>
+            <li><a href="#searchSideTab" data-toggle="tab" onclick="$('#fbbutts').addClass('hide')" title="Ctrl-Q/Cmd-Q">Search</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="fileSideTab">
+              <div id="fileTree"></div>
+            </div>
+            <div class="tab-pane" id="searchSideTab">
+              {% include "main/search.html" %}
+            </div>
+          </div>
+        </div>
+        <div class="back vert_sep">
+          <div>
+            <div>
+              <div id="collapse_tools" onclick="collapse_tools()">&#9666;</div>
+              <div draggable="true" id="resizeNarf"></div>
+            </div>
+          </div>
+        </div>
+        <div id="ace_wrapper" class="no_tabs">
+          <div class="no_tabs">
+            <h4><strong>Welcome to Neutron Drive</strong></h4>
+            <img src="{% static "img/neutron_face_128.png" %}" alt="Neutron Drive">
+            {% if recent_files %}
+            <h4><strong>Recently Opened Files</strong></h4>
+            <div class="recent" id="recent_back">
+              {% for key, value in recent_files.items %}
+              <div data-fileid="{{ key }}">
+                <a href="javascript: void(0);" onclick="file_opener('{{ key }}')" title="{{ value }}"><span>{{ value }}</span></a>
+              </div>
+              {% endfor %}
+            </div>
+            {% endif %}
+          </div>
+          <div id="tab_bar" class="back"></div>
+          <div id="ace_div"></div>
+        </div>
+      </div>
+    </div>
+    {% include "main/modals.html" %}
+    <script src="https://www.google.com/jsapi" charset="utf-8"></script>
+    <script type="text/javascript" src="{% static "ace/src-min/ace.js" %}"></script>
+    {% for grp in MODES %}
+    {% for mode in grp.1 %}
+    {% if mode.0 != 'text' %}
+    <script src="{% static "ace/src-min/mode-"|add:mode.0|add:".js" %}" type="text/javascript"></script>
+    {% endif %}{% endfor %}{% endfor %}
+    <script src="{% static "ace/src-min/theme-" %}{{ prefs.theme }}.js" type="text/javascript"></script>
+    <script type="text/javascript" src="{% static "ace/src-min/keybinding-emacs.js" %}"></script>
+    <script type="text/javascript" src="{% static "ace/src-min/keybinding-vim.js" %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor.js" %}"></script>
+    <script type="text/javascript">
+      var ndrive = {};
+      ndrive.CLIENT_ID = {{ CLIENT_ID }};
+      ndrive.negotiator = '{% url "shatner" %}';
+      
+      ndrive.prefs = '{% url "prefs" %}';
+      ndrive.save_session = '{% url "save_session" %}';
+      
+      ndrive.initial_ids = [{% for id in open_ids %}'{{ id }}'{% if not forloop.last %}, {% endif %}{% endfor %}];
+      ndrive.new_in = {% if new_in %}'{{ new_in }}'{% else %}false{% endif %};
+      
+      var STATIC_URL = '{{ request.static_url }}';
+      var LOADED_THEMES = ['{{ prefs.theme }}'];
+      var PREFS = {
+        theme: '{{ prefs.theme }}',
+        fontsize: '{{ prefs.fontsize }}',
+        keybind: '{{ prefs.keybind }}',
+        swrap: '{{ prefs.swrap }}',
+        tabsize: {{ prefs.tabsize }},
+        
+        hactive: {{ prefs.hactive|js_bool }},
+        hword: {{ prefs.hword|js_bool }},
+        invisibles: {{ prefs.invisibles|js_bool }},
+        gutter: {{ prefs.gutter|js_bool }},
+        pmargin: {{ prefs.pmargin|js_bool }},
+        softab: {{ prefs.softab|js_bool }},
+        behave: {{ prefs.behave|js_bool }},
+        
+        save_session: {{ prefs.save_session|js_bool }},
+        auto_save: {{ prefs.auto_save|js_bool }}
+      };
+      
+      google.load('picker', '1');
+    </script>
+    {% compiled 'footer' %}
+  </body>
+</html>
