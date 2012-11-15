@@ -1,0 +1,223 @@
+<div class="modal fade hide" id="aboutModal">{% load url from future %}{% load static %}
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3>About Neutron Drive</h3>
+  </div>
+  <div class="modal-body">
+    <img src="{% static "img/neutron.png" %}" alt="" style="float: right;">
+    <p>
+      Brought to you by <strong>Team Hairball</strong>:
+    </p>
+    {% include "main/team.html" %}
+    <p>
+      License: <a href="{% url "license" %}" target="_blank">New BSD</a>
+    </p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+  </div>
+</div>
+<div class="modal fade hide" id="keyModal" style="width: 800px; ; margin-left: -450px;">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3>Keyboard Shortcuts</h3>
+  </div>
+  <div class="modal-body">
+    <p>
+      {% include "main/keyboard.html" %}
+    </p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+  </div>
+</div>
+<div class="modal fade hide" id="shareModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3>Share Neutron Drive</h3>
+  </div>
+  <div class="modal-body">
+    <iframe id="share_iframe" style="width: 500px; height: 150px; border: 0px;"></iframe>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+  </div>
+</div>
+<div class="modal fade hide" id="linkModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3>Unsupported File Type</h3>
+  </div>
+  <div class="modal-body">
+    <strong>
+      <span id="hiddenLink">Narf</span>:<br>
+      <div style="padding-left: 20px;">
+        <a href="" target="_blank" id="hiddenLinkA" onclick="$('#linkModal').modal('toggle');">Open In Google Docs</a>&nbsp;&nbsp;&nbsp; &sdot;&nbsp;&nbsp;&nbsp; 
+        <a href="javascript: void(0);" id="hiddenLinkB" onclick="force_open()">Try to Open in Editor</a>
+      </div>
+    </strong>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+  </div>
+</div>
+<div class="modal fade hide" id="modeModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3>Editor Mode</h3>
+  </div>
+  <div class="modal-body">
+    <div class="emodes">
+      {% for grp in MODES %}
+      <div>
+        <h4>{{ grp.0 }}</h4>
+        {% for mode in grp.1 %}
+        <div class="wrap">
+          <input type="radio" name="emode" value="{{ mode.0 }}" id="emode_{{ mode.0 }}" onclick="set_editor_mode('{{ mode.0 }}')">
+          <label class="radio" for="emode_{{ mode.0 }}">{{ mode.1 }}</label>
+        </div>
+        {% endfor %}
+        <div class="clear"></div>
+      </div>
+      {% endfor %}
+      <div class="clear"></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+  </div>
+</div>
+<div class="modal fade hide" id="revModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3>Revision History: <span id="revTitle"></span></h3>
+  </div>
+  <div class="modal-body">
+    <div id="revBody">
+      <h2>Retrieving revision history please wait ... </h2>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="javascript: void(0);" class="btn btn-primary" onclick="do_diff()">Diff Selected</a>
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+  </div>
+</div>
+<div class="modal fade hide" id="revViewModal" style="width: 800px; margin-left: -450px;">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3>Revision: <span id="revViewTitle"></span></h3>
+  </div>
+  <div class="modal-body">
+    <pre id="revViewBody">Retrieving revision please wait ...</pre>
+  </div>
+  <div class="modal-footer">
+    <a href="javascript: void(0);" class="btn btn-info" onclick="$('#revViewModal').modal('hide'); $('#revModal').modal('show');">&laquo; View Revisions</a>
+    <a href="javascript: void(0);" class="btn btn-primary" onclick="do_revert()">Revert</a>
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+  </div>
+</div>
+<div class="modal fade hide" id="revDiffModal" style="width: 960px; margin-left: -450px;">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3><span id="revDiffTitle"></span></h3>
+  </div>
+  <div class="modal-body">
+    <div id="revDiffBody"><strong>Retrieving diff please wait ...</strong></div>
+  </div>
+  <div class="modal-footer">
+    <a href="javascript: void(0);" class="btn btn-primary" onclick="$('#revDiffModal').modal('hide'); $('#revModal').modal('show');">&laquo; View Revisions</a>
+    <a href="javascript: void(0);" class="btn btn-info" onclick="generate_diff(0)">Side by Side Diff</a>
+    <a href="javascript: void(0);" class="btn btn-success" onclick="generate_diff(1)">Inline Diff</a>
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+  </div>
+</div>
+<div class="modal fade hide" id="newModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3>New File</h3>
+  </div>
+  <div class="modal-body">
+    <div class="control-group">
+      <label class="control-label" for="id_newfile_name">New File Name</label>
+      <div class="controls">
+        <form onsubmit="return new_file()">
+          <input type="hidden" name="newfile_parent" id="id_newfile_parent" value="">
+          <input type="text" name="newfile_name" id="id_newfile_name" placeholder="Example: filename.py" value="">
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="javascript: void(0);" class="btn btn-primary" onclick="new_file()">Create</a>
+    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+  </div>
+</div>
+<div class="modal fade hide" id="newDirModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3>New Directory</h3>
+  </div>
+  <div class="modal-body">
+    <div class="control-group">
+      <label class="control-label" for="id_newfile_name">New Directory Name</label>
+      <div class="controls">
+        <form onsubmit="return new_dir()">
+          <input type="hidden" name="newdir_parent" id="id_newdir_parent" value="">
+          <input type="text" name="newdir_name" id="id_newdir_name" value="">
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="javascript: void(0);" class="btn btn-primary" onclick="new_dir()">Create</a>
+    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+  </div>
+</div>
+<div class="modal fade hide" id="prefModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3>Preferences</h3>
+  </div>
+  <div class="modal-body">
+    {% include "main/pref_form.html" %}
+  </div>
+  <div class="modal-footer">
+    <a href="javascript: void(0);" class="btn btn-primary" onclick="update_prefs()">Save</a>
+    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+  </div>
+</div>
+<div class="modal fade hide" id="renameModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3>Rename: <span id="renameSpan"></span></h3>
+  </div>
+  <div class="modal-body">
+    <div class="control-group">
+      <label class="control-label" for="id_newfile_name">New File Name</label>
+      <div class="controls">
+        <form onsubmit="return rename_file()">
+          <input type="hidden" name="rename_id" id="id_rename_id" value="">
+          <input type="hidden" name="rename_type" id="id_rename_type" value="">
+          <input type="text" name="rename" id="id_rename_name" value="">
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="javascript: void(0);" class="btn btn-primary" onclick="rename_file()">Rename</a>
+    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+  </div>
+</div>
+<div class="modal fade hide" id="htmlModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3>HTML View: <span id="htmlSpan"></span></h3>
+  </div>
+  <div class="modal-body">
+    <textarea id="ckeditor" name="ckeditor"></textarea>
+  </div>
+  <div class="modal-footer">
+    <a href="javascript: void(0);" class="btn btn-primary" onclick="update_html()">Update HTML</a>
+    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+  </div>
+</div>

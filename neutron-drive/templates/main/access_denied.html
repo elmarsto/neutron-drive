@@ -1,0 +1,37 @@
+{% extends "main/master.html" %}{% load url from future %}{% load static %}
+{% block title %}Access Denied &sdot; {% endblock %}
+{% block content %}
+<h1>Access Denied</h4>
+<p>
+  Since you did not grant access to Google Drive, Neutron Drive can not load.
+</p>
+<p>
+  Below is an explanation of the permissions needed to run Neutron Drive.
+</p>
+<ul>
+  <li>
+    <strong>View basic information about your account</strong><br>
+    We request your account info so we can store things like application preferences and associate them with your account.<br><br>
+  </li>
+  <li>
+    <strong>Add itself to Google Drive</strong><br>
+    This allows you to open files in Neutron Drive from Google Drive.<br><br>
+  </li>
+  <li>
+    <strong>View and manage the files and documents in your Google Drive</strong><br>
+    This allows you to open, list, add, and delete files upon request in Neutron Drive.<br><br>
+  </li>
+  <li>
+    <strong>View your email address</strong><br>
+    We send you periodic application update news.  You can unsubscribe at anytime.<br><br>
+  </li>
+  <li>
+    <strong>Perform these operations when I'm not using the application</strong><br>
+    We don't use this permission, but this is consequence of requesting the other permissions.  When Google makes finer grained permissions, we will probably remove this.<br><br>
+  </li>
+</ul>
+<p>
+  Trust us now?  If so, you can retry loading the editor.  
+  <strong><a href="{% url "edit" %}">Continue to Neutron Drive &raquo;</a></strong>
+</p>
+{% endblock %}

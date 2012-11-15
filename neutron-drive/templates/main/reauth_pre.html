@@ -1,0 +1,22 @@
+<!doctype html>{% load url from future %}{% load static %}
+<html> 
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Reauthorization</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.min.css" %}"></link>
+  </head>
+  <body>
+    <h2 style="margin: 0 20px; font-size: 20px;">
+      <br>
+      <img src="{% static "img/neutron_face_128.png" %}" alt="" class="logo" style="float: right;">
+      Neutron Drive Message:<br>
+      Reauthorization needed to complete your request.
+      <br><br>
+    </h2>
+    <h2 style="text-align: center;">
+      <a href="{% url 'reauth' %}">Reauthorize Now &raquo;</a>
+    </h2>
+  </body>
+</html>

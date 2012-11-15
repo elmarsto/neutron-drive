@@ -1,0 +1,22 @@
+<!doctype html>{% load url from future %}{% load static %}
+<html>
+  <head>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css"></link>
+    <link rel="stylesheet" href="{% static "css/edit.css" %}">
+    <title>Share Neutron Drive</title>
+  </head>
+  <body>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <div id="shareModal">
+      {% url 'edit' as edit_url %}
+      {% with url='https://'|add:request.get_host|add:edit_url %}{% include "main/share.html" %}{% endwith %}
+    </div>
+  </body>
+</html>

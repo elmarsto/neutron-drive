@@ -1,0 +1,148 @@
+{% extends "main/master.html" %}{% load url from future %}{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static "js/colorbox/example4/colorbox.css" %}">
+<script src="{% static "js/colorbox/colorbox/jquery.colorbox.js" %}"></script>
+{% endblock %}
+{% block content %}
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div class="floater_ad">
+  <a href="{% url 'edit' %}" style="text-decoration: underline;">Start Coding Now &raquo;</a>
+  {% include "main/share.html" %}
+</div>
+<p style="line-height: 1.8em; font-size: 1.1em;">
+  Need to make a quick code change on the go?<br>
+  Want to keep your code in sync on all your development machines?<br>
+  <strong>Try Neutron Drive!</strong>
+</p>
+<p>
+  Neutron Drive is based on <a href="http://ace.ajax.org/">Ace Editor</a> and has the following features:
+  <ul class="pad">
+    <li>Web based code editor</li>
+    <li>Auto saves to Google Drive</li>
+    <li>Syntax highlighting</li>
+    <li>Auto indentation and outdent</li>
+    <li>Google Drive revision control</li>
+    <li>Themes</li>
+    <li>File browser</li>
+    <li>Tabbed interface</li>
+    <li>Search and Replace</li>
+  </ul>
+</p>
+<p>
+  <h4>Screen Shots</h4>
+</p>
+<table class="ss">
+  <tr>
+    <td>
+      <a class="group2" href="{% static "img/ss/ss1.png" %}" title="Neutron in action with several tabs open">
+        <img src="{% static "img/ss/ss1_small.png" %}" alt=""><br>
+        Neutron in action with several tabs open
+      </a>
+    </td>
+    <td>
+      <a class="group2" href="{% static "img/ss/ss2.png" %}" title="Revision history feature">
+        <img src="{% static "img/ss/ss2_small.png" %}" alt=""><br>
+        Revision history feature
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a class="group2" href="{% static "img/ss/ss3.png" %}" title="Editor mode dialog showing all modes available">
+        <img src="{% static "img/ss/ss3_small.png" %}" alt=""><br>
+        Editor mode dialog showing all modes available
+      </a>
+    </td>
+    <td>
+      <a class="group2" href="{% static "img/ss/ss4.png" %}" title="Preference dialog showing all editor preferences">
+        <img src="{% static "img/ss/ss4_small.png" %}" alt=""><br>
+        Preference dialog showing all editor preferences
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <strong>Demo Video</strong><br>
+      <iframe width="853" height="480" src="https://www.youtube.com/embed/PiyS1L1jnqw" frameborder="0" allowfullscreen></iframe>
+    </td>
+  </tr>
+</table>
+<hr>
+<h2>Supported Languages</h2>
+<table class="lang">
+  <tr>
+    <td>
+      <ul>
+        <li>Clojure</li>
+        <li>C, C++</li>
+        <li>Cold Fusion</li>
+        <li>Coffee Script</li>
+        <li>C#</li>
+        <li>CSS</li>
+        <li>Diff Files</li>
+        <li>GLSL</li>
+        <li>Go</li>
+        <li>Haxe</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Html</li>
+        <li>Jade Templating</li>
+        <li>Java, JSP, Java Serialization to XML</li>
+        <li>Javascript, JSON</li>
+        <li>Latex</li>
+        <li>Less CSS</li>
+        <li>Liquid Templating</li>
+        <li>Lua</li>
+        <li>Markdown</li>
+        <li>PostgreSQL</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>PHP</li>
+        <li>Perl</li>
+        <li>Powershell</li>
+        <li>Python</li>
+        <li>Ruby</li>
+        <li>Sass, Scss</li>
+        <li>Shell</li>
+        <li>SQL</li>
+        <li>SVG</li>
+        <li>Plain Text</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>XML</li>
+        <li>XQuery</li>
+        <li>YAML</li>
+        <li>Groovy</li>
+        <li>OCaml</li>
+        <li>Scad</li>
+        <li>Scala</li>
+        <li>Tcl</li>
+        <li>Textile</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+<script type="text/javascript">
+  $(".group2").colorbox({rel:'group2', transition:"fade"});
+</script>
+<hr>
+<p>
+  For a more versatile web based development environment that you can run on your personal server, see <a href="http://neutronide.com/">Neutron IDE</a>.
+</p>
+<p>
+  <a href="http://internetdefenseleague.org" style="margin: 0 0 20px 0; display: block;"><img src="{% static "img/super_badge.png" %}" alt="Member of The Internet Defense League" /></a>
+</p>
+{% endblock %}

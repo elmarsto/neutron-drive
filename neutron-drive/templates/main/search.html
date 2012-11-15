@@ -1,0 +1,65 @@
+<div>
+  <form id="search_form" onsubmit="return do_search()">
+    <div class="control-group">
+      <label class="radio f" for="s_s">
+        <input type="radio" name="s_type" id="s_s" checked="" onclick="set_sr()">
+        Search
+      </label>
+      <label class="radio f" for="s_sr">
+        <input type="radio" name="s_type" id="s_sr" onclick="set_sr()">
+        Search &amp; Replace
+      </label>
+      <div class="clear"></div>
+    </div>
+    <div class="control-group">
+      <label>Search:</label>
+      <input type="text" class="span3" id="s_search" name="s_search">
+    </div>
+    <div class="control-group">
+      <label>Replace:</label>
+      <input type="text" class="span3" id="s_replace"  name="s_replace" disabled>
+    </div>
+    <div class="control-group">
+      Search In:<br>
+      <label class="radio f" for="s_current">
+        <input type="radio" name="s_what" id="s_current" checked="" value="current">
+        Current Tab
+      </label>
+      <label class="radio f" for="s_tabs">
+        <input type="radio" name="s_what" id="s_tabs" value="all">
+        All Tabs
+      </label>
+      <div class="clear"></div>
+    </div>
+    <div class="control-group">
+      <label class="control-label">Options:</label>
+      <div class="controls f">
+        <label class="checkbox">
+          <input type="checkbox" name="s_opt_case" id="s_opt_case">
+          Case Sensitive
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" name="s_opt_word" id="s_opt_word">
+          Whole Word
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" name="s_opt_regex" id="s_opt_regex">
+          Regex
+        </label>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div>
+      <button type="submit" class="btn btn-small init">Search</button>
+      <button type="button" class="btn btn-small hide next" id="s_prev" onclick="search_prev()">&laquo; Prev</button>
+      <button type="button" class="btn btn-small hide next" id="s_next" onclick="search_next()">Next &raquo;</button>
+      <button type="button" class="btn btn-small hide next" id="s_rnext" onclick="search_replace_next()">Replace &amp; Next &raquo;</button>
+      <button type="button" class="btn btn-small hide next" id="s_replaceall" onclick="search_replace_all()">Replace All</button>
+      <button type="button" class="btn btn-small hide next" id="s_newsearch" onclick="reset_search()">New Search</button>
+    </div>
+  </form>
+</div>
+<div>
+  <h3 class="back">Search Results <span id="s_count"></span></h3>
+  <div id="search_results"><em>Search Not Started</em></div>
+</div>

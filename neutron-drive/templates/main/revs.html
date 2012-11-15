@@ -1,0 +1,22 @@
+<table class="table table-striped">{% load ntags %}
+  <thead>
+    <tr>
+      <th>Last Modified (UTC)</th>
+      <th>File Size</th>
+      <th class="tc">Diff</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for rev in items reversed %}
+    <tr>
+      <td>{{ rev.modifiedDate|removeDeci }}</td>
+      <td>{{ rev.fileSize|filesizeformat }}</td>
+      <td class="tc"><input type="checkbox" name="diff" data-date="{{ rev.modifiedDate|removeDeci }}" data-id="{{ file_id }}" data-url="{{ rev.downloadUrl }}" onclick="return check_diff()"></td>
+      <td><a href="javascript: void(0);" onclick="view_revision('{{ file_id }}', '{{ rev.modifiedDate|removeDeci }}', '{{ rev.downloadUrl }}')">View</a></td>
+      <td><a href="javascript: void(0);" onclick="revert_revision('{{ file_id }}', '{{ rev.downloadUrl }}')">Revert</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
